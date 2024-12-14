@@ -3,7 +3,7 @@ from typing import List, Tuple
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from linear_regression.model import compute_cost, predict
-
+import os
 
 def plot_regression(X: List[float], y: List[float], predictions: List[float]) -> None:
     """
@@ -117,12 +117,21 @@ def plot_combined(
     y: List[float],
     wb_history: List[Tuple[float, float]], 
     cost_history: List[float],
-    margin: float = 1.0
+    margin: float = 1.0,
+    output_dir: str = "data/output",
+    filename: str = "combined_plot.png"
 ) -> None:
     """
     Plota o gráfico 3D da superfície de custo, o gráfico 2D do custo e a evolução
     das linhas de regressão ao longo das iterações do gradiente descendente.
+    Salva o gráfico gerado em vez de exibi-lo.
     """
+    # Criar pasta de saída, se não existir
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Caminho completo do arquivo
+    filepath = os.path.join(output_dir, filename)
+
     # Criar figura com 3 gráficos
     fig = plt.figure(figsize=(24, 6))
 
@@ -201,8 +210,9 @@ def plot_combined(
     ax3.set_title("Superfície da Função de Custo")
     ax3.legend()
 
-    # Ajustar layout
+    # Ajustar layout e salvar
     plt.tight_layout()
-    plt.show()
+    plt.savefig(filepath)
+    print(f"Gráfico salvo em: {filepath}")
 
 
