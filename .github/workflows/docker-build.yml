@@ -3,7 +3,7 @@ name: CI/CD Pipeline with ECR
 on:
   push:
     branches:
-      - master
+      - master  # Alterado para o branch correto
 
 jobs:
   build-and-push:
@@ -11,13 +11,18 @@ jobs:
 
     steps:
     - name: Checkout do código
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Configurar AWS CLI e Docker
       run: |
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install
+        if ! aws --version; then
+          echo "AWS CLI não encontrado. Instalando..."
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+        else
+          echo "AWS CLI já instalado."
+        fi
         aws --version
         docker --version
 
@@ -34,8 +39,8 @@ jobs:
       run: |
         GIT_SHA=$(git rev-parse --short HEAD)
         docker build -t machine-learning:$GIT_SHA .
-        docker tag machine-learning:$GIT_SHA 863518425456.dkr.ecr.us-east-1.amazonaws.com/machine-learning:$GIT_SHA
-        docker tag machine-learning:$GIT_SHA 863518425456.dkr.ecr.us-east-1.amazonaws.com/machine-learning:latest
+        docker tag machine-learning:$GIT_SHA 863518425456.dkr.ecr.$AWS_REGION.amazonaws.com/machine-learning:$GIT_SHA
+        docker tag machine-learning:$GIT_SHA 863518425456.dkr.ecr.$AWS_REGION.amazonaws.com/machine-learning:latest
 
     - name: Push da imagem para o ECR
       run: |
