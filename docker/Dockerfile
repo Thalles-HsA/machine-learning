@@ -15,3 +15,4 @@ COPY . ./
 
 # Comando padrão para executar
 CMD ["python", "main.py"]
+
