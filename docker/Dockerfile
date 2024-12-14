@@ -5,7 +5,7 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copiar apenas o arquivo de dependências primeiro (para cache)
-COPY requirements.txt /app/
+COPY docker/requirements.txt /app/
 
 # Instalar as dependências
 RUN pip install --no-cache-dir -r requirements.txt
