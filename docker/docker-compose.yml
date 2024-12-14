@@ -2,7 +2,9 @@ services:
   app:
     image: public.ecr.aws/w9f8p7q3/machine-learning:latest  # Especifica a imagem do ECR
     volumes:
-      - ./src:/app/src  # Mapeia o código local para o container
+      - ../src:/app/src
+      - ../data:/app/data
+
     ports:
       - "8000:8000"  # Porta exposta para acessar a aplicação
     environment:
