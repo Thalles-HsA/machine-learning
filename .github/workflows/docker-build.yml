@@ -42,5 +42,6 @@ jobs:
 
     - name: Push da imagem para o ECR Público
       run: |
+        GIT_SHA=$(git rev-parse --short HEAD)
         docker push public.ecr.aws/w9f8p7q3/machine-learning:$GIT_SHA
         docker push public.ecr.aws/w9f8p7q3/machine-learning:latest
