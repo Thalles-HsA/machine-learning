@@ -1,0 +1,82 @@
+# Arquivos e diretórios específicos do Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.log
+
+# Ambientes Virtuais (ex.: venv)
+.venv/
+env/
+ENV/
+venv/
+
+# Configurações específicas de IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos gerados pelo sistema operacional
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Configurações de logs e debug
+logs/
+*.log
+*.out
+*.err
+debug/
+
+# Arquivos relacionados ao Docker
+docker-compose.override.yml
+.env
+*.pid
+*.tar
+
+# Arquivos de dependências gerados
+Pipfile.lock
+poetry.lock
+
+# Arquivos de build gerados por CI/CD
+dist/
+build/
+*.egg-info/
+.eggs/
+coverage/
+.coverage
+
+# Arquivos específicos de repositórios remotos (AWS ECR, Docker Hub, etc.)
+.aws/
+*.key
+
+# Banco de Dados (se estiver usando SQLite para dev/teste local)
+*.sqlite3
+*.db
+*.sql
+
+# Configuração de chaves e credenciais
+secrets.json
+*.pem
+*.crt
+*.key
+*.cert
+
+# Arquivos de cache
+.cache/
+*.tmp
+
+# Arquivos temporários
+*.bak
+*.tmp
+*.old
+
+# Arquivos de outputs e resultados
+output/
+results/
+*.csv
+*.xlsx
+*.json
