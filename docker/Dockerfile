@@ -12,6 +12,3 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar o restante do código do projeto
 COPY src /app/src
-
-# Comando padrão para executar
-CMD ["python", "/app/src/main.py"]

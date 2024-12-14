@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Nome do repositório ECR e região
-ECR_REPO="863518425456.dkr.ecr.us-east-1.amazonaws.com/machine-learning"
+ECR_REPO="public.ecr.aws/w9f8p7q3/machine-learning"
 ECR_REGION="us-east-1"
 DOCKER_COMPOSE_FILE="$(dirname "$0")/../docker/docker-compose.yml"  # Caminho relativo ao script
 
@@ -39,7 +39,7 @@ fi
 log "Verificando login no ECR..."
 if ! docker pull "$ECR_REPO:latest" > /dev/null 2>&1; then
   log "Token expirado ou ausente. Realizando login no ECR..."
-  if aws ecr get-login-password --region "$ECR_REGION" | docker login --username AWS --password-stdin "$ECR_REPO"; then
+  if aws ecr-public get-login-password --region "$ECR_REGION" | docker login --username AWS --password-stdin "$ECR_REPO"; then
     log "Login no ECR realizado com sucesso!"
   else
     error "Falha ao fazer login no ECR. Verifique suas credenciais e permissões."
@@ -48,15 +48,9 @@ else
   log "Login no ECR ainda é válido."
 fi
 
-# Verificar permissões de execução
-if [[ ! -x "$DOCKER_COMPOSE_FILE" ]]; then
-  log "Ajustando permissões para o arquivo docker-compose.yml..."
-  chmod +x "$DOCKER_COMPOSE_FILE"
-fi
-
 # Subir os containers com docker-compose
 log "Rodando o docker-compose..."
-if docker-compose -f "$DOCKER_COMPOSE_FILE" up "$@"; then
+if docker-compose -f "$DOCKER_COMPOSE_FILE" up --pull "$@"; then
   log "Containers iniciados com sucesso!"
 else
   error "Falha ao iniciar os containers."

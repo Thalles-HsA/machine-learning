@@ -4,7 +4,7 @@ from linear_regression.utils import plot_combined
 
 # Dados Gerados
 m = 10  # Inclinação real
-b = 1.0  # Intercepto real
+b = 2.0  # Intercepto real
 
 # Parâmetros dos dados
 num_points = 200
