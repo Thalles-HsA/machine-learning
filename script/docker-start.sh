@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Nome do repositório ECR
+# Nome do repositório ECR e região
 ECR_REPO="863518425456.dkr.ecr.us-east-1.amazonaws.com/machine-learning"
 ECR_REGION="us-east-1"
-DOCKER_COMPOSE_FILE="docker-compose.yml"
+DOCKER_COMPOSE_FILE="$(dirname "$0")/../docker/docker-compose.yml"  # Caminho relativo ao script
 
 # Função para exibir mensagens formatadas
 log() {
@@ -21,13 +21,18 @@ if [[ ! -f "$DOCKER_COMPOSE_FILE" ]]; then
 fi
 
 # Verificar se o AWS CLI está instalado
-if ! command aws --version &> /dev/null; then
+if ! command -v aws &> /dev/null; then
   error "AWS CLI não está instalado. Instale-o antes de rodar este script."
 fi
 
 # Verificar se o Docker está instalado
-if ! command docker --version &> /dev/null; then
+if ! command -v docker &> /dev/null; then
   error "Docker não está instalado. Instale-o antes de rodar este script."
+fi
+
+# Verificar se o docker-compose está instalado
+if ! command -v docker-compose &> /dev/null; then
+  error "Docker Compose não está instalado. Instale-o antes de rodar este script."
 fi
 
 # Verificar se o login no ECR é válido
@@ -43,9 +48,15 @@ else
   log "Login no ECR ainda é válido."
 fi
 
+# Verificar permissões de execução
+if [[ ! -x "$DOCKER_COMPOSE_FILE" ]]; then
+  log "Ajustando permissões para o arquivo docker-compose.yml..."
+  chmod +x "$DOCKER_COMPOSE_FILE"
+fi
+
 # Subir os containers com docker-compose
 log "Rodando o docker-compose..."
-if docker-compose up "$@"; then
+if docker-compose -f "$DOCKER_COMPOSE_FILE" up "$@"; then
   log "Containers iniciados com sucesso!"
 else
   error "Falha ao iniciar os containers."
