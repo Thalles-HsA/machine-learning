@@ -11,7 +11,7 @@ COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar o restante do código do projeto
-COPY . /app/
+COPY ./src /app/src
 
 # Comando padrão para executar
-CMD ["python", "./src/main.py"]
+CMD ["python", "/app/src/main.py"]
