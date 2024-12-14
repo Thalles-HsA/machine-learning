@@ -2,9 +2,9 @@ services:
   app:
     image: public.ecr.aws/w9f8p7q3/machine-learning:latest  # Especifica a imagem do ECR
     volumes:
-      - .:/app  # Mapeia o código local para o container (apenas para desenvolvimento)
+      - ./src:/app/src  # Mapeia o código local para o container
     ports:
       - "8000:8000"  # Porta exposta para acessar a aplicação
     environment:
       - ENV=development  # Variável de ambiente para diferenciar ambientes
-    command: ["python", "main.py"]  # Comando para rodar a aplicação
+    command: ["python", "/app/src/main.py"]  # Caminho correto para o main.py
