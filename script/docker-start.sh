@@ -50,7 +50,7 @@ fi
 
 # Subir os containers com docker-compose
 log "Rodando o docker-compose..."
-if docker-compose -f "$DOCKER_COMPOSE_FILE" up --pull "$@"; then
+if docker-compose -f "$DOCKER_COMPOSE_FILE" up"$@"; then
   log "Containers iniciados com sucesso!"
 else
   error "Falha ao iniciar os containers."

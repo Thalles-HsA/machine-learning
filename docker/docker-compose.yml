@@ -8,3 +8,4 @@ services:
       - "8000:8000"  # Porta exposta para acessar a aplicação
     environment:
       - ENV=development  # Variável de ambiente para diferenciar ambientes
+    command: ["python", "/app/src/main.py"]  # Caminho correto para o main.py

@@ -1,0 +1,42 @@
+Exemplo de Automação com AWS ECR e GitHub
+Passo 1: Listar Branches Ativas no Repositório
+Use a API do GitHub para listar as branches:
+
+bash
+Copiar código
+curl -s -H "Authorization: token GITHUB_TOKEN" \
+  https://api.github.com/repos/<owner>/<repo>/branches | jq -r '.[].name'
+Resultado:
+
+plaintext
+Copiar código
+main
+develop
+feature-login
+hotfix-critical-bug
+Passo 2: Listar Imagens no AWS ECR
+Liste as imagens no ECR com o AWS CLI:
+
+bash
+Copiar código
+aws ecr list-images --repository-name my-app --query 'imageIds[*].imageTag' --output text
+Resultado:
+
+plaintext
+Copiar código
+latest
+desenv
+feature-login
+hotfix-critical-bug
+feature-old
+Passo 3: Identificar Imagens "Orfãs"
+Compare as tags das imagens com as branches listadas no GitHub. No exemplo acima, feature-old não está mais associada a uma branch ativa.
+
+Passo 4: Remover Imagens Desnecessárias
+Delete as imagens identificadas como "orfãs" no ECR:
+
+bash
+Copiar código
+aws ecr batch-delete-image \
+  --repository-name my-app \
+  --image-ids imageTag=feature-old
