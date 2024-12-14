@@ -10,8 +10,8 @@ COPY requirements.txt /app/
 # Instalar as dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar o restante do código do projeto (diretório src na raiz do projeto)
-COPY ../src /app/src
+# Copiar o restante do código do projeto
+COPY src /app/src
 
 # Comando padrão para executar
 CMD ["python", "/app/src/main.py"]

@@ -36,9 +36,10 @@ jobs:
     - name: Build da imagem
       run: |
         GIT_SHA=$(git rev-parse --short HEAD)
-        docker build -t machine-learning:$GIT_SHA ./docker
+        docker build -t machine-learning:$GIT_SHA -f docker/Dockerfile . # Use o diretório raiz como contexto
         docker tag machine-learning:$GIT_SHA public.ecr.aws/w9f8p7q3/machine-learning:$GIT_SHA
         docker tag machine-learning:$GIT_SHA public.ecr.aws/w9f8p7q3/machine-learning:latest
+  
 
     - name: Push da imagem para o ECR Público
       run: |
